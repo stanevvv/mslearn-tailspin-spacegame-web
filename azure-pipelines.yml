@@ -45,7 +45,7 @@ steps:
     arguments: '--no-restore --configuration $(buildConfiguration)'
     projects: '**/*.csproj'
 
-- task: DotnetCoreCLI@2
+- task: DotNetCoreCLI@2
   displayName: 'Install .NET tools from local manifest'
   inputs:
     command: custom
@@ -56,8 +56,8 @@ steps:
   displayName: 'Run unit tests - $(buildConfiguration)'
   inputs:
     command: 'test'
-    arguments: '--no-build --configuration $(buildConfiguration)'
-    publisTestResults: true
+    arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    publishTestResults: true
     projects: '**/*.Tests.csproj'
 
 - task: DotNetCoreCLI@2
